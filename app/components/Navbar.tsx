@@ -10,7 +10,7 @@ import AuthModal from "./AuthModal";
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
-    const { user, logout } = useAuth();
+    const { user, userRole, logout } = useAuth();
 
     const navLinks = [
         { href: "#work", label: "Work" },
@@ -72,6 +72,14 @@ const Navbar = () => {
                                         >
                                             Dashboard
                                         </Link>
+                                        {userRole === 'admin' && (
+                                            <Link
+                                                href="/admin"
+                                                className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-neon-purple/20 text-neon-purple font-medium transition-colors"
+                                            >
+                                                Admin Dashboard
+                                            </Link>
+                                        )}
                                         <Link
                                             href="/profile"
                                             className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 text-gray-300 hover:text-white transition-colors"

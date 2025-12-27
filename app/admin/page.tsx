@@ -104,12 +104,16 @@ export default function AdminDashboard() {
     }, [activeTab, isAdmin]);
 
     if (loading) return <div className="min-h-screen bg-black flex items-center justify-center text-neon-purple animate-pulse">Checking Admin Access...</div>;
+
     if (!user || !isAdmin) return (
-        <div className="min-h-screen bg-black flex flex-col items-center justify-center text-white gap-4">
-            <ShieldAlert size={64} className="text-red-500 mb-2" />
-            <h1 className="text-4xl font-bold text-red-500">403: Forbidden</h1>
-            <p className="text-gray-400">You do not have administrative privileges.</p>
-            <a href="/" className="px-6 py-2 rounded-full border border-neon-cyan text-neon-cyan hover:bg-neon-cyan/10 transition-all">Return Home</a>
+        <div className="min-h-screen bg-black text-white">
+            <Navbar />
+            <div className="flex flex-col items-center justify-center h-[calc(100vh-80px)] gap-4">
+                <ShieldAlert size={64} className="text-red-500 mb-2" />
+                <h1 className="text-4xl font-bold text-red-500">403: Forbidden</h1>
+                <p className="text-gray-400">You do not have administrative privileges.</p>
+                <a href="/" className="mt-4 px-6 py-2 rounded-full border border-neon-cyan text-neon-cyan hover:bg-neon-cyan/10 transition-all font-medium">Return Home</a>
+            </div>
         </div>
     );
 
