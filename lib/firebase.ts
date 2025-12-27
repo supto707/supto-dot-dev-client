@@ -13,8 +13,12 @@ const firebaseConfig = {
 };
 
 // Debug check (Safe to remove after fixing)
-if (typeof window !== "undefined" && !firebaseConfig.apiKey) {
-    console.error("❌ Firebase API Key is missing! Check your environment variables.");
+if (typeof window !== "undefined") {
+    if (!firebaseConfig.apiKey) {
+        console.error("❌ Firebase API Key is missing! Check your environment variables.");
+    } else {
+        console.log("ℹ️ Firebase API Key detected (starts with):", firebaseConfig.apiKey.substring(0, 7) + "...");
+    }
 }
 
 
