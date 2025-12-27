@@ -3,7 +3,8 @@
 import { useAuth } from "../context/AuthContext";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { CreditCard, Package, Clock, ShieldCheck } from "lucide-react";
+import { LayoutDashboard, ShieldCheck, Package, Clock, ExternalLink } from "lucide-react";
+import { getApiUrl } from "@/lib/api";
 import Navbar from "../components/Navbar";
 
 export default function Dashboard() {
@@ -13,17 +14,24 @@ export default function Dashboard() {
     useEffect(() => {
         const fetchUserData = async () => {
             if (user) {
-                const token = await getAuthToken();
-                const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
-                const res = await fetch(`${apiUrl}/api/user/profile`, {
-                    headers: { Authorization: `Bearer ${token}` }
-                });
-                const data = await res.json();
-                setStats(data);
+                try {
+                    const token = await getAuthToken();
+                    const res = await fetch(getApiUrl("/api/user/profile"), {
+                        headers: { Authorization: `Bearer ${token}` }
+                    });
+                    if (res.ok) {
+                        const data = await res.json();
+                        setStats(data.user);
+                    } else {
+                        console.error("Failed to fetch user profile:", res.status, res.statusText);
+                    }
+                } catch (error) {
+                    console.error("Dashboard failed to fetch stats", error);
+                }
             }
         };
         if (user) fetchUserData();
-    }, [user]);
+    }, [user, getAuthToken]);
 
     if (loading) return <div className="min-h-screen bg-black flex items-center justify-center text-neon-purple animate-pulse">Loading Dashboard...</div>;
 

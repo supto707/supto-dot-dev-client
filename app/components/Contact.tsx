@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Send, Loader2, CheckCircle } from "lucide-react";
+import { getApiUrl } from "@/lib/api";
 
 const Contact = () => {
     const [formData, setFormData] = useState({
@@ -27,8 +28,7 @@ const Contact = () => {
         setErrorMessage("");
 
         try {
-            const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
-            const response = await fetch(`${apiUrl}/api/contact`, {
+            const response = await fetch(getApiUrl("/api/contact"), {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

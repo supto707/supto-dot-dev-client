@@ -14,6 +14,7 @@ import {
     ConfirmationResult
 } from "firebase/auth";
 import { auth, googleProvider } from "@/lib/firebase";
+import { getApiUrl } from "@/lib/api";
 
 interface AuthContextType {
     user: User | null;
@@ -37,8 +38,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const fetchUserRole = async (firebaseUser: User) => {
         try {
             const token = await getIdToken(firebaseUser);
-            const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
-            const res = await fetch(`${apiUrl}/api/user/profile`, {
+            const res = await fetch(getApiUrl("/api/user/profile"), {
                 headers: { Authorization: `Bearer ${token}` }
             });
             if (res.ok) {

@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Users, FileText, LayoutDashboard, ExternalLink, ShieldAlert } from "lucide-react";
 import Navbar from "../components/Navbar";
+import { getApiUrl } from "@/lib/api";
 
 export default function AdminDashboard() {
     const { user, loading, getAuthToken } = useAuth();
@@ -17,9 +18,8 @@ export default function AdminDashboard() {
         const verifyAdmin = async () => {
             if (user) {
                 const token = await getAuthToken();
-                const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
                 try {
-                    const res = await fetch(`${apiUrl}/api/admin/stats`, {
+                    const res = await fetch(getApiUrl("/api/admin/stats"), {
                         headers: { Authorization: `Bearer ${token}` }
                     });
                     if (res.ok) {
@@ -40,8 +40,7 @@ export default function AdminDashboard() {
 
     const fetchProjects = async () => {
         const token = await getAuthToken();
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
-        const res = await fetch(`${apiUrl}/api/admin/projects`, {
+        const res = await fetch(getApiUrl("/api/admin/projects"), {
             headers: { Authorization: `Bearer ${token}` }
         });
         const projectsData = await res.json();
@@ -50,8 +49,7 @@ export default function AdminDashboard() {
 
     const fetchUsers = async () => {
         const token = await getAuthToken();
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
-        const res = await fetch(`${apiUrl}/api/admin/users`, {
+        const res = await fetch(getApiUrl("/api/admin/users"), {
             headers: { Authorization: `Bearer ${token}` }
         });
         const usersData = await res.json();
@@ -62,10 +60,9 @@ export default function AdminDashboard() {
         setIsUpdating(userId);
         try {
             const token = await getAuthToken();
-            const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
             const newRole = currentRole === 'admin' ? 'user' : 'admin';
 
-            const res = await fetch(`${apiUrl}/api/admin/users/${userId}/role`, {
+            const res = await fetch(getApiUrl(`/api/admin/users/${userId}/role`), {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
@@ -91,8 +88,7 @@ export default function AdminDashboard() {
             if (activeTab === 'stats') {
                 const fetchStats = async () => {
                     const token = await getAuthToken();
-                    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
-                    const res = await fetch(`${apiUrl}/api/admin/stats`, {
+                    const res = await fetch(getApiUrl("/api/admin/stats"), {
                         headers: { Authorization: `Bearer ${token}` }
                     });
                     const statsData = await res.json();

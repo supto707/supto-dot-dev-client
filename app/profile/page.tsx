@@ -3,8 +3,9 @@
 import { useAuth } from "../context/AuthContext";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { User as UserIcon, Mail, Camera, Save, Loader2 } from "lucide-react";
+import { User as UserIcon, Mail, Camera, Save, Loader2, Shield, ShieldCheck, MapPin, Calendar } from "lucide-react";
 import Navbar from "../components/Navbar";
+import { getApiUrl } from "@/lib/api";
 
 export default function Profile() {
     const { user, loading, getAuthToken } = useAuth();
@@ -25,8 +26,7 @@ export default function Profile() {
 
         try {
             const token = await getAuthToken();
-            const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
-            const res = await fetch(`${apiUrl}/api/user/profile`, {
+            const res = await fetch(getApiUrl("/api/user/profile"), {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",

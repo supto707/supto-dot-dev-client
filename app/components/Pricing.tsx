@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Check, Zap, Crown, Building2, Rocket } from "lucide-react";
+import { getApiUrl } from "@/lib/api";
 
 const plans = [
     {
@@ -78,8 +79,7 @@ const plans = [
 const Pricing = () => {
     const handleCheckout = async (planName: string) => {
         try {
-            const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
-            const response = await fetch(`${apiUrl}/api/checkout`, {
+            const response = await fetch(getApiUrl("/api/checkout"), {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -93,8 +93,7 @@ const Pricing = () => {
                 window.location.href = data.url;
             } else if (!data.success) {
                 // Redirect to login if auth required
-                const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
-                window.location.href = `${apiUrl}/auth/google`;
+                window.location.href = getApiUrl("/auth/google");
             }
         } catch (error) {
             console.error("Checkout error:", error);
