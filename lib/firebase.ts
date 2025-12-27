@@ -14,10 +14,14 @@ const firebaseConfig = {
 
 // Debug check (Safe to remove after fixing)
 if (typeof window !== "undefined") {
-    if (!firebaseConfig.apiKey) {
-        console.error("❌ Firebase API Key is missing! Check your environment variables.");
-    } else {
-        console.log("ℹ️ Firebase API Key detected (starts with):", firebaseConfig.apiKey.substring(0, 7) + "...");
+    console.log("🛠️ Firebase Debug Info:");
+    console.log("- API Key (masked):", firebaseConfig.apiKey ? `${firebaseConfig.apiKey.substring(0, 7)}...` : "MISSING");
+    console.log("- Project ID:", firebaseConfig.projectId || "MISSING");
+    console.log("- App ID:", firebaseConfig.appId || "MISSING");
+    console.log("- Auth Domain:", firebaseConfig.authDomain || "MISSING");
+
+    if (!firebaseConfig.apiKey || !firebaseConfig.projectId) {
+        console.error("❌ Critical Firebase configuration is missing! Check Vercel Env Variables.");
     }
 }
 
