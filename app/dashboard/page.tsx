@@ -14,7 +14,8 @@ export default function Dashboard() {
         const fetchUserData = async () => {
             if (user) {
                 const token = await getAuthToken();
-                const res = await fetch("http://localhost:5000/api/user/profile", {
+                const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+                const res = await fetch(`${apiUrl}/api/user/profile`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 const data = await res.json();

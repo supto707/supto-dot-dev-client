@@ -25,7 +25,8 @@ export default function Profile() {
 
         try {
             const token = await getAuthToken();
-            const res = await fetch("http://localhost:5000/api/user/profile", {
+            const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+            const res = await fetch(`${apiUrl}/api/user/profile`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
