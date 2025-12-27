@@ -12,6 +12,12 @@ const firebaseConfig = {
     measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
 };
 
+// Debug check (Safe to remove after fixing)
+if (typeof window !== "undefined" && !firebaseConfig.apiKey) {
+    console.error("❌ Firebase API Key is missing! Check your environment variables.");
+}
+
+
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
