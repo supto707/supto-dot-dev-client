@@ -78,7 +78,8 @@ const plans = [
 const Pricing = () => {
     const handleCheckout = async (planName: string) => {
         try {
-            const response = await fetch("http://localhost:5000/api/checkout", {
+            const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+            const response = await fetch(`${apiUrl}/api/checkout`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -92,7 +93,8 @@ const Pricing = () => {
                 window.location.href = data.url;
             } else if (!data.success) {
                 // Redirect to login if auth required
-                window.location.href = "http://localhost:5000/auth/google";
+                const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+                window.location.href = `${apiUrl}/auth/google`;
             }
         } catch (error) {
             console.error("Checkout error:", error);
@@ -131,8 +133,8 @@ const Pricing = () => {
                             viewport={{ once: true }}
                             transition={{ duration: 0.6, delay: index * 0.1 }}
                             className={`relative rounded-2xl p-6 flex flex-col ${plan.popular
-                                    ? "glass-card border border-neon-purple shadow-[0_0_30px_rgba(123,44,191,0.3)] scale-105 z-10"
-                                    : "glass-card hover:border-neon-cyan/30"
+                                ? "glass-card border border-neon-purple shadow-[0_0_30px_rgba(123,44,191,0.3)] scale-105 z-10"
+                                : "glass-card hover:border-neon-cyan/30"
                                 }`}
                         >
                             {/* Popular Badge */}
@@ -176,8 +178,8 @@ const Pricing = () => {
                             <button
                                 onClick={() => handleCheckout(plan.name)}
                                 className={`w-full py-3 rounded-full font-medium text-sm transition-all duration-300 ${plan.popular
-                                        ? "bg-neon-purple text-white btn-glow border border-neon-purple-light/30 hover:bg-neon-purple-light"
-                                        : "bg-white/5 text-white hover:bg-white/10 border border-white/10 hover:border-neon-cyan/50"
+                                    ? "bg-neon-purple text-white btn-glow border border-neon-purple-light/30 hover:bg-neon-purple-light"
+                                    : "bg-white/5 text-white hover:bg-white/10 border border-white/10 hover:border-neon-cyan/50"
                                     }`}
                             >
                                 {plan.cta}
